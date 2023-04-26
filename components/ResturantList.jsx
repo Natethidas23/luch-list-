@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react"
-import {View,Text,ScrollView,StyleSheet} from "react-native"
+import {View,ScrollView,StyleSheet} from "react-native"
 import RestaurantCard from "./ResturantCard"
-export default function ResturantList(){
+import Random from "./Random"
+export default function ResturantList({navigation}){
     const [foodList, setFoodList]= useState()
     useEffect(()=>{
         fetch('https://my-first-firestore-bc.web.app/restaurants')
@@ -13,12 +14,12 @@ export default function ResturantList(){
     return (
         <>
         <View style={style.container}>
-        <Text style={style.title}>Restaurant List</Text>
         <ScrollView style={style.list}>
             {foodList && foodList.map(food => (
-                <RestaurantCard food={food} key={food.id}/>
+                <RestaurantCard food={food} key={food.id} navigation={navigation}/>
             ))}
         </ScrollView>
+        <Random navigation={navigation} foodlist={foodList}/>
         </View>
         </>
 
@@ -29,6 +30,7 @@ const style = StyleSheet.create({
     title:{
         fontSize:30,
         fontWeight: 700,
+        marginVertical:8,
         color:"#151B54",
     },
     list:{
@@ -38,10 +40,11 @@ const style = StyleSheet.create({
     },
     container:{
         flex: 1,
-        //backgroundColor: 'pink',
+        backgroundColor: 'skyblue',
         marginTop: 56,
-        width: '90%',
+        width: '100%',
         alignItems:'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
+        paddingHorizontal:16,
     },
 })
